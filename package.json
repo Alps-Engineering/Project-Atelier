@@ -1,0 +1,19 @@
+{
+  "name": "project-atelier",
+  "version": "1.0.0",
+  "description": "Hack Reactor - System Design Capstone",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Alps-Engineering/Project-Atelier.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Alps-Engineering/Project-Atelier/issues"
+  },
+  "homepage": "https://github.com/Alps-Engineering/Project-Atelier#readme"
+}
