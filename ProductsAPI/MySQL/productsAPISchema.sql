@@ -16,6 +16,8 @@ CREATE TABLE features(
   CONSTRAINT fk_product
   FOREIGN KEY (product_id)
     REFERENCES products(product_id)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE
 );
 
 CREATE TABLE styles(
@@ -29,6 +31,8 @@ CREATE TABLE styles(
   CONSTRAINT fk_product
   FOREIGN KEY (product_id)
     REFERENCES products(product_id)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE
 );
 CREATE TABLE photos(
   photo_id INT AUTO_INCREMENT NOT NULL,
@@ -39,6 +43,8 @@ CREATE TABLE photos(
   CONSTRAINT fk_style
   FOREIGN KEY (style_id)
     REFERENCES styles(style_id)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE
 );
 CREATE TABLE skus(
   sku_id INT AUTO_INCREMENT NOT NULL,
@@ -49,6 +55,8 @@ CREATE TABLE skus(
   CONSTRAINT fk_style
   FOREIGN KEY (style_id)
     REFERENCES styles(style_id)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE
 );
 
 CREATE TABLE related(
@@ -58,10 +66,14 @@ CREATE TABLE related(
   PRIMARY KEY (related_id),
   CONSTRAINT fk_current_product
   FOREIGN KEY (current_product_id)
-    REFERENCES products(product_id),
+    REFERENCES products(product_id)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE,
   CONSTRAINT fk_related_product
   FOREIGN KEY (related_product_id)
     REFERENCES products(product_id)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE
 );
 
 -- // products_to_x associations //
@@ -85,3 +97,9 @@ CREATE TABLE related(
 
 -- // related_to_x associations //
 -- products: many to one
+-- related: many to many
+
+-- related table: related_product_id is foreign key that refers to 'related' (self-referencing foreign key)
+-- this allows the related table to store the relationship between products that are related to current product
+-- each product can have zero or many related products
+-- each related product can have zero or many related products

@@ -7,7 +7,7 @@ const stylesSchema = new Schema({
   name: { type: String, required: true },
   original_price: { type: String, required: true },
   sale_price: { type: String, required: false },
-  default_price: { type: Boolean, required: true },
+  default_style: { type: Boolean, required: true },
   product_id: { type: Number, required: true }
 });
 
