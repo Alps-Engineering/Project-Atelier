@@ -1,54 +1,67 @@
 CREATE TABLE products(
-  id INT AUTO_INCREMENT NOT NULL, -- product_id
-  name VARCHAR(100) NOT NULL,
+  product_id INT AUTO_INCREMENT NOT NULL,
+  product_name VARCHAR(100) NOT NULL,
   slogan VARCHAR(100),
-  description VARCHAR(2000),
+  product_description VARCHAR(2000),
   category VARCHAR(50),
-  default_price INT,
-  PRIMARY KEY (id),
+  default_price VARCHAR(20),
+  PRIMARY KEY (product_id),
 );
 CREATE TABLE features(
-  id INT AUTO_INCREMENT NOT NULL, -- feature_id
+  feature_id INT AUTO_INCREMENT NOT NULL,
   feature VARCHAR(100),
-  value VARCHAR(100),
+  feature_value VARCHAR(100),
   product_id INT NOT NULL,
-  PRIMARY KEY (id),
+  PRIMARY KEY (feature_id),
+  CONSTRAINT fk_product
   FOREIGN KEY (product_id)
+    REFERENCES products(product_id)
 );
 
 CREATE TABLE styles(
-  id INT AUTO_INCREMENT NOT NULL, -- style_id
-  name VARCHAR(50) NOT NULL,
-  original_price INT NOT NULL,
-  sale_price INT,
-  default? TINYINT,
+  style_id INT AUTO_INCREMENT NOT NULL,
+  style_name VARCHAR(50) NOT NULL,
+  original_price VARCHAR(20) NOT NULL,
+  sale_price VARCHAR(20),
+  default_style TINYINT,
   product_id INT NOT NULL,
-  PRIMARY KEY (id),
+  PRIMARY KEY (style_id),
+  CONSTRAINT fk_product
   FOREIGN KEY (product_id)
+    REFERENCES products(product_id)
 );
 CREATE TABLE photos(
-  id INT AUTO_INCREMENT NOT NULL, -- photo_id
-  url VARCHAR(2000),
+  photo_id INT AUTO_INCREMENT NOT NULL,
   thumbnail_url VARCHAR(2000),
+  photo_url VARCHAR(2000),
   style_id INT NOT NULL,
-  PRIMARY KEY (id),
+  PRIMARY KEY (photo_id),
+  CONSTRAINT fk_style
   FOREIGN KEY (style_id)
+    REFERENCES styles(style_id)
 );
 CREATE TABLE skus(
-  id INT AUTO_INCREMENT NOT NULL, -- sku_id
+  sku_id INT AUTO_INCREMENT NOT NULL,
   quantity INT,
   size VARCHAR(10),
   style_id INT NOT NULL,
-  PRIMARY KEY (id),
+  PRIMARY KEY (sku_id),
+  CONSTRAINT fk_style
   FOREIGN KEY (style_id)
+    REFERENCES styles(style_id)
 );
 
 CREATE TABLE related(
-  id INT AUTO_INCREMENT NOT NULL, -- related_id
+  related_id INT AUTO_INCREMENT NOT NULL,
   related_product_id INT,
-  product_id INT NOT NULL,
-  PRIMARY KEY (id),
-  FOREIGN KEY (product_id)
+  current_product_id INT NOT NULL,
+  PRIMARY KEY (related_id),
+  CONSTRAINT fk_current_product
+  FOREIGN KEY (current_product_id)
+    REFERENCES products(product_id),
+  CONSTRAINT fk_related_product
+  FOREIGN KEY (related_product_id)
+    REFERENCES products(product_id)
 );
 
 -- // products_to_x associations //
