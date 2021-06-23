@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const db = require('../database');
 
 const reviewsSchema = new mongoose.Schema({
-  review_id: { type: Number, unique: true, required: true },
+  review_id: { type: Number, unique: true, required: true, index: true },
   product_id: { type: Number, index: true },
   rating: { type: Number, index: true },
   summary: String,
