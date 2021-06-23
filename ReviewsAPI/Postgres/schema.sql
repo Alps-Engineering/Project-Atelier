@@ -1,7 +1,9 @@
-CREATE TABLE [IF NOT EXISTS] reviews (
+DROP TABLE IF EXISTS reviews, photos, metadata;
+
+CREATE TABLE reviews (
 	review_id SERIAL PRIMARY KEY,
-	product_id NOT NULL FOREIGN KEY,
-	rating SMALLINT NOT NULL,
+	product_id INT,
+	rating SMALLINT,
   helpfulness SMALLINT,
   recommend boolean,
   reported boolean,
@@ -14,15 +16,19 @@ CREATE TABLE [IF NOT EXISTS] reviews (
   characteristics hstore
 );
 
-CREATE TABLE [IF NOT EXISTS] photos (
+CREATE TABLE photos (
   id SERIAL PRIMARY KEY,
-  review_id INT NOT NULL FOREIGN KEY,
+  review_id INT NOT NULL,
   url VARCHAR ( 512 )
 );
 
-CREATE TABLE [IF NOT EXISTS] metadata (
+ALTER TABLE photos ADD CONSTRAINT photos_review_id_fkey FOREIGN KEY (review_id) REFERENCES reviews(review_id);
+
+CREATE TABLE metadata (
   product_id SERIAL PRIMARY KEY,
   ratings hstore,
   recommended hstore,
   characteristics hstore
 );
+
+ALTER TABLE reviews ADD CONSTRAINT reviews_product_id_fkey FOREIGN KEY (product_id) REFERENCES metadata(product_id);
