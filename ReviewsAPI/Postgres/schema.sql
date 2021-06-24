@@ -13,7 +13,7 @@ CREATE TABLE reviews (
 	summary VARCHAR ( 128 ),
 	body VARCHAR ( 1024 ),
   response VARCHAR ( 1024 ),
-  characteristics hstore
+  characteristics json
 );
 
 CREATE TABLE photos (
