@@ -7,6 +7,6 @@ const db = mysql.createConnection({
   database: 'productsSDC'
 });
 
-db.connect();
+// db.connect();
 
 module.exports = db;
