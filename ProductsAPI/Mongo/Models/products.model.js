@@ -8,7 +8,8 @@ const productsSchema = new Schema({
   slogan: { type: String, required: true },
   description: { type: String, required: true },
   category: { type: String, required: true },
-  default_price: { type: String, required: true }
+  default_price: { type: String, required: true },
+  features: { type: String, required: true }
 });
 
 const Products = mongoose.model('Products', productsSchema);
