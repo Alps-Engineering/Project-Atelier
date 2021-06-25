@@ -22,9 +22,11 @@ pool.connect((err, client, release) => {
       )
       .on('data', (data) => {
         client.query(
-          `UPDATE reviews SET characteristics = characteristics || hstore(ARRAY[['id', '${data.id}'], ['value', '${
-            data.value
-          }']]) WHERE review_id = ${Number(data.review_id)};`,
+          `
+          UPDATE reviews
+          SET characteristics = characteristics || '"${data.id}" => "${data.value}"'
+          WHERE review_id = ${Number(data.review_id)};
+          `,
           (err, result) => {
             if (err) {
               return console.error(`Error executing query on review: ${data.review_id}`, err.stack);
