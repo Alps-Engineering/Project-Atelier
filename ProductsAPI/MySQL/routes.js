@@ -20,7 +20,6 @@ router.route('/').get((req, res) => {
   });
 });
 
-//need to incorporate id variable into query?
 router.route('/:product_id').get((req, res) => {
   let id = [req.params.product_id];
   let queryStr = `SELECT products.product_id, products.product_name, products.slogan, products.product_description, products.category, products.default_price, \
@@ -30,10 +29,18 @@ router.route('/:product_id').get((req, res) => {
     if (err) {
       throw err;
     } else {
-      res.send(result);
+      let parsedKeys = Object.keys(JSON.parse(result[0].features));
+      let parsedValues = Object.values(JSON.parse(result[0].features));
+      result[0].features = parsedKeys.map((key, value) => (
+        {
+          feature: key,
+          value: parsedValues[value]
+        }
+      ));
+      res.send(result[0]);
     }
   });
-  // try {
+  // try {s
   //   const rows = await db.query(queryStr)
   //   console.log('result: ', rows)
   // } catch (err) {
