@@ -22,19 +22,23 @@ router.route('/').get((req, res) => {
 
 //need to incorporate id variable into query?
 router.route('/:product_id').get((req, res) => {
-  let id = [req.params.id];
+  let id = [req.params.product_id];
   let queryStr = `SELECT products.product_id, products.product_name, products.slogan, products.product_description, products.category, products.default_price, \
                   JSON_OBJECTAGG(features.feature, features.feature_value) AS features FROM products, features \
-                  WHERE products.product_id=features.product_id GROUP BY products.product_id`;
-
-  db.query(queryStr, (err, result) => {
+                  WHERE products.product_id = ${id} AND features.product_id = ${id} GROUP BY products.product_id`;
+  db.query(queryStr, id, (err, result) => {
     if (err) {
       throw err;
     } else {
-      console.log('result:', result)
       res.send(result);
     }
   });
+  // try {
+  //   const rows = await db.query(queryStr)
+  //   console.log('result: ', rows)
+  // } catch (err) {
+  //   console.log('this is error:', err);
+  // };
 });
 
 router.route('/:product_id/styles').get((req, res) => {
