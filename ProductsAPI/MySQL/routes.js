@@ -20,22 +20,21 @@ router.route('/').get((req, res) => {
   });
 });
 
+//need to incorporate id variable into query?
 router.route('/:product_id').get((req, res) => {
   let id = [req.params.id];
-  let queryStr = `SELECT * FROM skus ORDER BY sku_id DESC LIMIT 1`;
-  db.query(queryStr, id)
-  .then(result => {
-    let product = result.rows[0];
-    let keys = Object.keys(product.features);
-    product.features = keys.map(key => {
-      return {
-        feature: key,
-        value: product.features[key]
-      }
-    })
-    res.send(product);
-  })
-  .catch(err => console.log('error', error));
+  let queryStr = `SELECT products.product_id, products.product_name, products.slogan, products.product_description, products.category, products.default_price, \
+                  JSON_OBJECTAGG(features.feature, features.feature_value) AS features FROM products, features \
+                  WHERE products.product_id=features.product_id GROUP BY products.product_id`;
+
+  db.query(queryStr, (err, result) => {
+    if (err) {
+      throw err;
+    } else {
+      console.log('result:', result)
+      res.send(result);
+    }
+  });
 });
 
 router.route('/:product_id/styles').get((req, res) => {
