@@ -12,7 +12,7 @@ CREATE TABLE reviews (
   date CHAR ( 32 ),
 	summary VARCHAR ( 128 ),
 	body VARCHAR ( 1024 ),
-  response VARCHAR ( 1024 ),
+  response VARCHAR ( 1024 )
 );
 
 CREATE TABLE photos (
