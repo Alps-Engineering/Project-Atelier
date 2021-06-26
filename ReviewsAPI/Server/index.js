@@ -9,17 +9,13 @@ const app = express();
 const PORT = process.env.PORT || 1337;
 
 app.use(express.json());
-app.use('/reviews', reviews);
+app.use('/reviews/', reviews);
 app.use('/reviews/meta', metadata);
 app.use('/reviews/:review_id/helpful', helpful);
 app.use('/reviews/:review_id/report', report);
 
+app.get('/', (req, res) => res.send('Hello World'));
+
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
 });
-
-//GET /reviews/
-//GET /reviews/meta
-//POST /reviews
-//PUT /reviews/:review_id/helpful
-//PUT /reviews/:review_id/report
