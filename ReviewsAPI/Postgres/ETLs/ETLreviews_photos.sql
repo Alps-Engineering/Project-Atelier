@@ -1,4 +1,4 @@
 COPY photos
-FROM '/home/tim/HackReactor/Project-Atelier/ReviewsAPI/data/reviews_photosTest.csv'
+FROM '/home/tim/HackReactor/Project-Atelier/ReviewsAPI/data/reviews_photos.csv'
 DELIMITER ','
 CSV HEADER;
