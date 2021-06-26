@@ -7,9 +7,9 @@ CREATE TABLE reviews (
   helpfulness SMALLINT,
   recommend boolean,
   reported boolean,
-  reviewer_name CHAR ( 64 ),
-  reviewer_email CHAR ( 64 ),
-  date CHAR ( 32 ),
+  reviewer_name VARCHAR ( 64 ),
+  reviewer_email VARCHAR ( 64 ),
+  date VARCHAR ( 32 ),
 	summary VARCHAR ( 128 ),
 	body VARCHAR ( 1024 ),
   response VARCHAR ( 1024 )
