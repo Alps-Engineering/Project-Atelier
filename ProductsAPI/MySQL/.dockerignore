@@ -1,0 +1,4 @@
+node_modules
+productsAPI/mongo
+productsAPI/mysql/artilleryTests
+ReviewsAPI

@@ -4,7 +4,8 @@
   "description": "Hack Reactor - System Design Capstone",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "productsStart": "node productsAPI/mysql/app.js"
   },
   "repository": {
     "type": "git",
