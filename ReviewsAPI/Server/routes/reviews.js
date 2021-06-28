@@ -1,5 +1,7 @@
 const express = require('express');
 const { getReviewsByProduct } = require('../../Postgres/models/reviews');
+const { markReviewHelpful } = require('../../Postgres/models/helpful');
+const { markReviewReported } = require('../../Postgres/models/report');
 
 const router = express.Router();
 
@@ -20,5 +22,29 @@ router
     });
   })
   .post((req, res) => {});
+
+router.put('/:review_id/helpful', (req, res) => {
+  markReviewHelpful(req.params.review_id, (err, result) => {
+    if (err) {
+      res.sendStatus(500);
+    }
+    if (result) {
+      res.sendStatus(201);
+    }
+  });
+});
+
+router.put('/:review_id/report', (req, res) => {
+  markReviewReported(req.params.review_id, (err, result) => {
+    if (err) {
+      res.sendStatus(500);
+    }
+    if (result) {
+      res.sendStatus(201);
+    }
+  });
+});
+
+router.get('/meta', (req, res) => {});
 
 module.exports = router;
