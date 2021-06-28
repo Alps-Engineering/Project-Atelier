@@ -1,3 +1,4 @@
+#Copying command lines from terminal for documentation
 
 #products
 LOAD DATA LOCAL INFILE '/Users/austinmiller/Downloads/product.csv' INTO TABLE products FIELDS TERMINATED BY ',' ENCLOSED BY '"' LINES TERMINATED BY '\n' IGNORE 1 ROWS;
