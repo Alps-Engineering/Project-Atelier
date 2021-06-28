@@ -1,3 +1,4 @@
 node_modules
 config.js
+productsAPI/mongo
 ReviewsAPI/data

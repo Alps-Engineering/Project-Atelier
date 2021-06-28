@@ -1,0 +1,24 @@
+config:
+  target: http://localhost:4000
+  phases:
+    - duration: 20
+      arrivalRate: 5 #virtual users every second for 20sec
+      name: Warm up
+    - duration: 60
+      arrivalRate: 10
+      rampTo: 50
+      name: Ramp up load
+    - duration: 60
+      arrivalRate: 50
+      rampTo: 100
+      name: Sustained load
+    - duration: 120
+      arrivalRate: 100
+      rampTo: 1000
+      name: Peak load
+scenarios:
+  - flow:
+      - loop:
+          - get:
+              url: "/products"
+        count: 10
