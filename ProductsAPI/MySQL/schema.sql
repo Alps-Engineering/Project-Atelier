@@ -40,6 +40,9 @@ CREATE TABLE styles (
     ON UPDATE CASCADE
     ON DELETE CASCADE
 );
+CREATE INDEX prod_id ON styles (product_id);
+CREATE INDEX sty_id ON styles (style_id);
+
 CREATE TABLE photos (
   photo_id INT AUTO_INCREMENT NOT NULL,
   style_id INT NOT NULL,
@@ -52,6 +55,8 @@ CREATE TABLE photos (
     ON UPDATE CASCADE
     ON DELETE CASCADE
 );
+CREATE INDEX sty_id_photo ON photos (style_id);
+
 CREATE TABLE skus (
   sku_id INT AUTO_INCREMENT NOT NULL,
   style_id INT NOT NULL,
@@ -64,6 +69,7 @@ CREATE TABLE skus (
     ON UPDATE CASCADE
     ON DELETE CASCADE
 );
+CREATE INDEX sty_id_sku ON skus (style_id);
 
 CREATE TABLE related (
   related_id INT AUTO_INCREMENT NOT NULL,
