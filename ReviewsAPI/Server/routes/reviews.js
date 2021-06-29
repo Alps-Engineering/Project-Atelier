@@ -1,7 +1,8 @@
 const express = require('express');
-const { getReviewsByProduct } = require('../../Postgres/models/reviews');
+const { getReviewsByProduct, postReviewByProduct } = require('../../Postgres/models/reviews');
 const { markReviewHelpful } = require('../../Postgres/models/helpful');
 const { markReviewReported } = require('../../Postgres/models/report');
+const { getMetadata } = require('../../Postgres/models/metadata');
 
 const router = express.Router();
 
@@ -21,7 +22,16 @@ router
       }
     });
   })
-  .post((req, res) => {});
+  .post((req, res) => {
+    postReviewByProduct(req.body, (err, result) => {
+      if (err) {
+        res.sendStatus(500);
+      }
+      if (result) {
+        res.status(201).json(result);
+      }
+    });
+  });
 
 router.put('/:review_id/helpful', (req, res) => {
   markReviewHelpful(req.params.review_id, (err, result) => {
@@ -45,6 +55,15 @@ router.put('/:review_id/report', (req, res) => {
   });
 });
 
-router.get('/meta', (req, res) => {});
+router.get('/meta', (req, res) => {
+  getMetadata(req.query.product_id, (err, result) => {
+    if (err) {
+      res.sendStatus(500);
+    }
+    if (result) {
+      res.json(result);
+    }
+  });
+});
 
 module.exports = router;
