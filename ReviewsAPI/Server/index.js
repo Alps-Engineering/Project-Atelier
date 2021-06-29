@@ -5,7 +5,7 @@ const reviews = require('./routes/reviews');
 const app = express();
 const PORT = process.env.PORT || 1337;
 
-app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use('/reviews', reviews);
 
 app.get('/', (req, res) => res.send('Hello World'));
