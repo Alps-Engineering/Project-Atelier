@@ -3,5 +3,5 @@ FROM '/home/tim/HackReactor/Project-Atelier/ReviewsAPI/data/reviews.csv'
 DELIMITER ','
 CSV HEADER;
 
-CREATE SEQUENCE review_id_seq;
-SELECT setval('review_id', max(id)) FROM reviews;
+
+SELECT setval('reviews_review_id_seq', max(review_id)) FROM reviews;
