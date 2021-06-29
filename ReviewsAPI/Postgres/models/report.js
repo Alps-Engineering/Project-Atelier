@@ -6,13 +6,13 @@ module.exports.markReviewReported = (review_id, cb) => {
   SET reported = true
   WHERE review_id = ${review_id};`;
 
-  pool.query(updateQryStr, (err, result) => {
-    if (err) {
+  pool
+    .query(updateQryStr)
+    .catch((err) => {
       console.error('There was a problem updating the data: ', err.stack);
       cb(err);
-    }
-    if (result) {
+    })
+    .then((result) => {
       cb(null, result);
-    }
-  });
+    });
 };

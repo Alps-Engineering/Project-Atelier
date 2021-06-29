@@ -6,24 +6,26 @@ module.exports.markReviewHelpful = (review_id, cb) => {
   FROM reviews
   WHERE review_id = ${review_id};`;
 
-  pool.query(selectQryStr, (err, result) => {
-    if (err) {
+  pool
+    .query(selectQryStr)
+    .catch((err) => {
       console.error('There was a problem getting the data from the db: ', err.stack);
       cb(err);
-    }
-    if (result) {
+    })
+    .then((result) => {
       const updateQryStr = `
-      UPDATE reviews
-      SET helpfulness = ${result.rows[0].helpfulness + 1}
-      WHERE review_id = ${review_id};`;
+        UPDATE reviews
+        SET helpfulness = ${result.rows[0].helpfulness + 1}
+        WHERE review_id = ${review_id};`;
 
-      pool.query(updateQryStr, (err, result) => {
-        if (err) {
+      pool
+        .query(updateQryStr)
+        .catch((err) => {
           console.error('There was a problem inserting the data: ', err.stack);
           cb(err);
-        }
-        cb(null, result);
-      });
-    }
-  });
+        })
+        .then((result) => {
+          cb(null, result);
+        });
+    });
 };

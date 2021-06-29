@@ -57,28 +57,28 @@ module.exports.getMetadata = (product_id, cb) => {
   ON c.id = cr.characteristic_id
   WHERE c.product_id = ${product_id};`;
 
-  pool.query(selectCharQryStr, (err, result) => {
-    if (err) {
+  pool
+    .query(selectCharQryStr)
+    .catch((err) => {
       console.error('There was a problem getting the characteristics data from the db: ', err.stack);
       cb(err);
-    }
-    if (result) {
+    })
+    .then((result) => {
       const characteristics = formatCharacteristics(result.rows);
       const selectRatingsQryStr = `
-      SELECT product_id, rating, recommend
-      FROM reviews
-      WHERE product_id = ${product_id};`;
+        SELECT product_id, rating, recommend
+        FROM reviews
+        WHERE product_id = ${product_id};`;
 
-      pool.query(selectRatingsQryStr, (err, result) => {
-        if (err) {
+      pool
+        .query(selectRatingsQryStr)
+        .catch((err) => {
           console.error('There was a problem getting the ratings data from the db: ', err.stack);
           cb(err);
-        }
-        if (result) {
+        })
+        .then((result) => {
           const ratings = formatRatings(result.rows);
           cb(null, Object.assign(ratings, { characteristics }));
-        }
-      });
-    }
-  });
+        });
+    });
 };
