@@ -98,24 +98,6 @@ Scenario counts:
 Codes:
 200: 100
 
-All virtual users finished - searching for product_id 62
-Duration: 20 Arrival Rate: 20
-Summary report @ 11:24:37(-0400) 2021-06-30
-Scenarios launched: 400
-Scenarios completed: 400
-Requests completed: 400
-Mean response/sec: 19.56
-Response time (msec):
-min: 1
-max: 4
-median: 1
-p95: 2
-p99: 2
-Scenario counts:
-0: 400 (100%)
-Codes:
-200: 400
-
 All virtual users finished - searching for product_id 622415
 Duration: 20 Arrival Rate: 20
 Summary report @ 11:26:49(-0400) 2021-06-30
