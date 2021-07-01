@@ -18,24 +18,25 @@ module.exports.getReviewsByProduct = (product, sort, page, count, cb) => {
     .then((result) => {
       if (result.rows.length < 1) {
         cb(404);
+      } else {
+        const results = [];
+        result.rows.forEach((review) => {
+          const formatedReview = { ...review };
+          formatedReview.photos = [];
+          if (formatedReview.id) {
+            formatedReview.photos.push({ id: review.id, url: review.url });
+          }
+          delete formatedReview.id;
+          delete formatedReview.url;
+          results.push(formatedReview);
+        });
+        cb(null, {
+          product,
+          page,
+          count,
+          results,
+        });
       }
-      const results = [];
-      result.rows.forEach((review) => {
-        const formatedReview = { ...review };
-        formatedReview.photos = [];
-        if (formatedReview.id) {
-          formatedReview.photos.push({ id: review.id, url: review.url });
-        }
-        delete formatedReview.id;
-        delete formatedReview.url;
-        results.push(formatedReview);
-      });
-      cb(null, {
-        product,
-        page,
-        count,
-        results,
-      });
     });
 };
 

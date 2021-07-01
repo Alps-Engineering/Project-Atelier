@@ -66,25 +66,26 @@ module.exports.getMetadata = (product_id, cb) => {
     .then((result) => {
       if (result.rows.length < 1) {
         cb(404);
-      }
-      const characteristics = formatCharacteristics(result.rows);
-      const selectRatingsQryStr = `
-        SELECT product_id, rating, recommend
-        FROM reviews
-        WHERE product_id = ${product_id};`;
+      } else {
+        const characteristics = formatCharacteristics(result.rows);
+        const selectRatingsQryStr = `
+          SELECT product_id, rating, recommend
+          FROM reviews
+          WHERE product_id = ${product_id};`;
 
-      pool
-        .query(selectRatingsQryStr)
-        .catch((err) => {
-          console.error('There was a problem getting the ratings data from the db: ', err.stack);
-          cb(500);
-        })
-        .then((result) => {
-          if (result.rows.length < 1) {
-            cb(404);
-          }
-          const ratings = formatRatings(result.rows);
-          cb(null, Object.assign(ratings, { characteristics }));
-        });
+        pool
+          .query(selectRatingsQryStr)
+          .catch((err) => {
+            console.error('There was a problem getting the ratings data from the db: ', err.stack);
+            cb(500);
+          })
+          .then((result) => {
+            if (result.rows.length < 1) {
+              cb(404);
+            }
+            const ratings = formatRatings(result.rows);
+            cb(null, Object.assign(ratings, { characteristics }));
+          });
+      }
     });
 };
