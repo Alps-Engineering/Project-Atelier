@@ -13,6 +13,10 @@ app.get('/', (req, res) => {
   res.send('Test: Products API');
 });
 
+app.get('/loaderio-7d0db0914d9bee60ed9ab6d06a4096b3', (req, res) => {
+  res.send('loaderio-7d0db0914d9bee60ed9ab6d06a4096b3');
+});
+
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`)
 });
