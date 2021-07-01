@@ -2,7 +2,8 @@ const mysql = require('mysql');
 
 const db = mysql.createConnection({
   user: 'root',
-  host: '3306',
+  host: '52.15.44.93',
+  port: '3306',
   password: '',
   database: 'productsSDC'
 });

@@ -90,35 +90,6 @@ router.route('/:product_id/styles').get((req, res) => {
     });
   };
 
-  // const loadData = async () => {
-  //   try {
-  //     const styles = await getStyles(id);
-  //     console.log('styles', styles)
-  //     finalObj.product_id = id[0];
-  //     finalObj.results = styles;
-  //     finalObj.results.map((key, i) => {
-  //       if (key.sale_price === 'null') {
-  //         key.sale_price = '0';
-  //       }
-  //       finalObj.results[i]['default?'] = finalObj.results[i].default_style;
-  //       if (finalObj.results[i]['default?'] === 1) {
-  //         finalObj.results[i]['default?'] = true;
-  //       } else {
-  //         finalObj.results[i]['default?'] = false;
-  //       }
-  //       delete(finalObj.results[i].default_style);
-  //       const photos1 = await getPhotos(key.style_id);
-  //       photos1.photos = photos1;
-  //       // const skus = await getSkus(style_id);
-  //       })
-  //       // console.log('finalObj', finalObj)
-  //       res.send(finalObj);
-  //   } catch (err) {
-  //     console.log('error', err)
-  //   }
-  // }
-  // loadData();
-
   getStyles(id)
   .then(data => {
     finalObj.product_id = id[0];
@@ -182,3 +153,46 @@ router.route('/:product_id/related').get((req, res) => {
 });
 
 module.exports = router;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // const loadData = async () => {
+  //   try {
+  //     const styles = await getStyles(id);
+  //     console.log('styles', styles)
+  //     finalObj.product_id = id[0];
+  //     finalObj.results = styles;
+  //     finalObj.results.map((key, i) => {
+  //       if (key.sale_price === 'null') {
+  //         key.sale_price = '0';
+  //       }
+  //       finalObj.results[i]['default?'] = finalObj.results[i].default_style;
+  //       if (finalObj.results[i]['default?'] === 1) {
+  //         finalObj.results[i]['default?'] = true;
+  //       } else {
+  //         finalObj.results[i]['default?'] = false;
+  //       }
+  //       delete(finalObj.results[i].default_style);
+  //       const photos1 = await getPhotos(key.style_id);
+  //       photos1.photos = photos1;
+  //       // const skus = await getSkus(style_id);
+  //       })
+  //       // console.log('finalObj', finalObj)
+  //       res.send(finalObj);
+  //   } catch (err) {
+  //     console.log('error', err)
+  //   }
+  // }
+  // loadData();
