@@ -13,9 +13,12 @@ module.exports.getReviewsByProduct = (product, sort, page, count, cb) => {
     .query(selectQryStr)
     .catch((err) => {
       console.error('There was a problem getting the reviews from the db: ', err.stack);
-      cb(err);
+      cb(400);
     })
     .then((result) => {
+      if (result.rows.length < 1) {
+        cb(404);
+      }
       const results = [];
       result.rows.forEach((review) => {
         const formatedReview = { ...review };

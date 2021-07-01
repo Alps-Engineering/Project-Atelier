@@ -15,7 +15,7 @@ router
     const count = req.query.count || 5;
     getReviewsByProduct(product, sort, page, count, (err, result) => {
       if (err) {
-        res.sendStatus(500);
+        res.sendStatus(err);
       }
       if (result) {
         res.json(result);
@@ -36,7 +36,7 @@ router
 router.put('/:review_id/helpful', (req, res) => {
   markReviewHelpful(req.params.review_id, (err, result) => {
     if (err) {
-      res.sendStatus(500);
+      res.sendStatus(err);
     }
     if (result) {
       res.sendStatus(201);

@@ -61,9 +61,12 @@ module.exports.getMetadata = (product_id, cb) => {
     .query(selectCharQryStr)
     .catch((err) => {
       console.error('There was a problem getting the characteristics data from the db: ', err.stack);
-      cb(err);
+      cb(400);
     })
     .then((result) => {
+      if (result.rows.length < 1) {
+        cb(404);
+      }
       const characteristics = formatCharacteristics(result.rows);
       const selectRatingsQryStr = `
         SELECT product_id, rating, recommend
@@ -74,9 +77,12 @@ module.exports.getMetadata = (product_id, cb) => {
         .query(selectRatingsQryStr)
         .catch((err) => {
           console.error('There was a problem getting the ratings data from the db: ', err.stack);
-          cb(err);
+          cb(500);
         })
         .then((result) => {
+          if (result.rows.length < 1) {
+            cb(404);
+          }
           const ratings = formatRatings(result.rows);
           cb(null, Object.assign(ratings, { characteristics }));
         });
