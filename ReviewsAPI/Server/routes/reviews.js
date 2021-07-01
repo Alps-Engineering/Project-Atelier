@@ -36,7 +36,7 @@ router
 router.put('/:review_id/helpful', (req, res) => {
   markReviewHelpful(req.params.review_id, (err, result) => {
     if (err) {
-      res.sendStatus(err);
+      res.sendStatus(500);
     }
     if (result) {
       res.sendStatus(201);
@@ -58,7 +58,7 @@ router.put('/:review_id/report', (req, res) => {
 router.get('/meta', (req, res) => {
   getMetadata(req.query.product_id, (err, result) => {
     if (err) {
-      res.sendStatus(500);
+      res.sendStatus(err);
     }
     if (result) {
       res.json(result);
