@@ -17,7 +17,7 @@ module.exports.getReviewsByProduct = (product, sort, page, count, cb) => {
     })
     .then((result) => {
       if (result.rows.length < 1) {
-        cb(404);
+        cb(null, "This product doesn't have any reviews");
       } else {
         const results = [];
         result.rows.forEach((review) => {

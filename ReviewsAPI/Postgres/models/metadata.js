@@ -65,7 +65,7 @@ module.exports.getMetadata = (product_id, cb) => {
     })
     .then((result) => {
       if (result.rows.length < 1) {
-        cb(404);
+        cb(null, "This product doesn't have any reviews");
       } else {
         const characteristics = formatCharacteristics(result.rows);
         const selectRatingsQryStr = `
