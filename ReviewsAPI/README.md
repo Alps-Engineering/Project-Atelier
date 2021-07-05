@@ -82,7 +82,7 @@ Using one of these methods to run the schema.sql file will easily create all of 
 
 ### ETL
 
-There is a [.sql file](Postgres/ETL/) corresponding to each .csv file. They each contain two queries. The first, a `COPY FROM` query that will essentially run an `INSERT INTO` for each line of the .csv, and the second, a `setval()` query that will reset the sequence for the primary key after all of the inserting is done. This method for loading data from a .csv is extremely fast and allows you to make simple changes like changing the names of columns to better reflect the data.
+There is a [.sql file](Postgres/ETL) corresponding to each .csv file. They each contain two queries. The first, a `COPY FROM` query that will essentially run an `INSERT INTO` for each line of the .csv, and the second, a `setval()` query that will reset the sequence for the primary key after all of the inserting is done. This method for loading data from a .csv is extremely fast and allows you to make simple changes like changing the names of columns to better reflect the data.
 
 ### Optimization
 
@@ -341,7 +341,7 @@ Spreading the instances across availability zones, didn't result in any discerna
 
 ### Summary
 
-This project is an exploration into system design with the sole purpose of gaining experience and knowledge. The process began with over 31 million records in .csv files that were loaded into a fresh database. Artillery provided some benchmarks before optimization. Database performance peaked after the indexing of all necessary columns. The API routes for each of the five endpoints received algorithms to shape the data into what the front-end expects. Database queries joined to decrease the number of queries necessarry. The system was deployed using AWS's EC2 service with an instance for the database and another instance for each server. Loader's cloud based testing suite provided stress tests of our server.
+This project is an exploration into system design with the sole purpose of gaining experience and knowledge. The process began with over 31 million records in .csv files that were loaded into a fresh database. Artillery provided some benchmarks before optimization. Database performance peaked after the indexing of all necessary columns. The API routes for each of the five endpoints received algorithms to shape the data into what the frontend expects. Database queries joined to decrease the number of queries necessarry. The system was deployed using AWS's EC2 service with an instance for the database and another instance for each server. Loader's cloud based testing suite provided stress tests of our server.
 
 ---
 ---
