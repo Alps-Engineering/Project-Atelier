@@ -60,7 +60,7 @@ module.exports.postgresConfig = {
 
 ## Data
 
-The data were received in four .csv files, each containing the rows extracted from one table. Combined, the files contained just over 31 million records. I've included a representative [sample](./SampleData/) of each file for reference.
+The data were received in four .csv files, each containing the rows extracted from one table. Combined, the files contained just over 31 million records. I've included a representative [sample](./SampleData) of each file for reference.
 
 ### Database
 
