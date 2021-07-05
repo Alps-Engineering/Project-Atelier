@@ -23,14 +23,16 @@ This project is about designing and implementing a RESTful API for one service o
 - [Developer](#developer)
 
 ---
+---
 
-### Description
+## Description
 
 This project is my first attempt at designing a backend system to manage large scale data storage as well as web scale traffic. The challenge is to design and implement a more optimal architecture to seamlessly replace a currently deployed system. This necessarily places some constraints on the design because it must integrate with the frontend without demanding any alteration to it. The number and type of endpoints, as well as the shape of the data for each response must map directly to the currently implemented system.
 
 ---
+---
 
-### Environment Setup
+## Environment Setup
 
 If you wish to utilize this application, ensure the following software is installed on your system:
 
@@ -54,12 +56,13 @@ module.exports.postgresConfig = {
 ```
 
 ---
+---
 
-### Data
+## Data
 
 The data was received in four .csv files, each containing the rows extracted from one table. Combined, the files contained just over 31 million records. I've included a representative [sample](./SampleData/) of each file for reference.
 
-#### Database
+### Database
 
 The [schema](Postgres/schema.sql) for each table is designed around the shape of the incoming data and the requisite responses. Consideration is also paid to the maintainability of the records into the future by not using any nested data structures.
 
@@ -77,11 +80,11 @@ or in the `psql` CLI, `\c` into the desired database and run:
 
 Using one of these methods to run the schema.sql file will easily create all of the necessary tables and get set up to load the data.
 
-#### ETL
+### ETL
 
 I created a .sql file for each .csv. The [files](Postgres/ETL/) each contain two queries. The first, a `COPY FROM` query that will essentially run an `INSERT INTO` for each line of the .csv, and the second, a `setval()` query that will reset the sequence for the primary key after all of the inserting is done. This method for loading data from a .csv is extremely fast and allowed me to make simple changes like changing the names of columns to better reflect the data.
 
-#### Optimization
+### Optimization
 
 After loading the data into Postgres, some of the queries that requires joining across tables were extremely inefficient. So inefficient that runnig the query froze my computer. I turned to indexing to speed this up. [Indexing](Postgres/ETL/Indexing.sql) all columns that are being searched for that aren't already primary keys. After indexing two columns, the queries were quick enough to run some tests. Using [Artilley.io](https://artillery.io/), I simulated hitting a single endpoint with 20 users a second for 20 seconds with a timeout of 10 seconds and received the following results:
 
@@ -117,13 +120,14 @@ p99: 2
 
 The response success rate jumped from 1.75% to 100% while the median response time decreased from 6.6 seconds to 1 millisecond.
 
-___
+---
+---
 
-### API
+## API
 
 The API is a [Node.js](https://nodejs.org/) server built with the [Express](https://expressjs.com/) framework.
 
-#### Endpoints
+### Endpoints
 
 There are five [endpoints](Server/routes/reviews.js) for this service.
 1. [List of Reviews](#1-list-of-reviews)
@@ -132,7 +136,9 @@ There are five [endpoints](Server/routes/reviews.js) for this service.
 4. [Report a Review](#4-report-review)
 5. [Metadata](#5-metadata)
 
-##### 1. List of Reviews
+---
+
+#### 1. List of Reviews
 
 `GET /reviews/` Returns a list of reviews for the given product id. This automatically filters out any reviews that have been reported.
 
@@ -176,12 +182,13 @@ There are five [endpoints](Server/routes/reviews.js) for this service.
                 }
             ]
         },
-        // ...
     ]
 }
 ```
 
-##### 2. Add a New Review
+---
+
+#### 2. Add a New Review
 
 `POST /reviews/` Adds a review for the given product id.
 
@@ -203,7 +210,9 @@ There are five [endpoints](Server/routes/reviews.js) for this service.
 
 `Status: 201 CREATED`
 
-##### 3. Mark Review as Helpful
+---
+
+#### 3. Mark Review as Helpful
 
 `PUT /reviews/:review_id/helpful` Updates a review to show it was found helpful.
 
@@ -217,7 +226,9 @@ There are five [endpoints](Server/routes/reviews.js) for this service.
 
 `Status: 204 No Content`
 
-##### 4. Report Review
+---
+
+#### 4. Report Review
 
 `PUT /reviews/:review_id/report` Updates a review to show it was reported. *Note:* this action does not delete the review, but the review will not be returned GET requests.
 
@@ -230,6 +241,8 @@ There are five [endpoints](Server/routes/reviews.js) for this service.
 ###### Reponse
 
 `Status: 204 No Content`
+
+---
 
 ##### 5. Metadata
 
@@ -280,7 +293,7 @@ There are five [endpoints](Server/routes/reviews.js) for this service.
 }
 ```
 
-___
+---
 
 #### Deployment
 
@@ -289,6 +302,8 @@ The server is deployed on an [AWS](https://aws.amazon.com/) EC2 instance. It's a
 The database is deployed on its own AWS EC2 instance with all the same specifications except for an additional 8GB of SSD storage.
 
 The two instances are connected via networking inside of AWS's [VPC](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-vpc.html) for optimal performance with minimal latency.
+
+---
 
 #### Stress Testing
 
@@ -306,7 +321,8 @@ The helpful endpoint also contains two sequential queries, but each is simply to
 
 ![Loader.io 1000 users for 60 seconds](Loader/ksnip_20210701-165939.png)
 
-___
+---
+---
 
 #### Horizontal Scaling
 
@@ -320,12 +336,15 @@ However, when running stress tests with Loader on the dual server/load balancer 
 
 I investigated spreading the instances across availability zones, but this didn't result in any discernable differences. The main challenge for future development on this project will be troubleshooting this functionality.
 
-___
-
+---
+---
 
 ### Summary
 
 This project is an exploration into system design with the sole purpose of gaining experience and knowledge. Starting with over 31 million records in .csv files, we loaded the data into a fresh database, transforming it as needed in the process. After getting some benchmarks, we optimized the performance of our database by indexing the necessary columns. We established routes for each of the five endpoints and wrote algorithms to shape the data before responding. We deployed the system using AWS's EC2 service with an instance for the database and another instance for each server. We used Loader cloud based testing suite to stress test our server.
+
+---
+---
 
 ### Developer
 
