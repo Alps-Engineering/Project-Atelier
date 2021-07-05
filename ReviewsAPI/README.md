@@ -2,7 +2,7 @@
 
 ## A RESTful API <!-- omit in toc -->
 
-This project is about designing and implementing a RESTful API for one service on a retail web portal. Data must undergo the ETL process and all the necessary endpoints created. The goal is to design a system that is optimized and capable of horizontal scaling when necessary.
+The challenge is to design and implement a RESTful API for one service on a retail web portal. Data must undergo the ETL process and all the necessary endpoints created. The goal is for the system to be optimized and capable of horizontal scaling when necessary.
 
 ---
 
@@ -43,7 +43,7 @@ Fork and clone a copy of this repository to your machine and then navigate your 
 
 Using the `psql` CLI or a GUI such as PGAdmin, create a new PostgreSQL database and ensure your user has been granted the `pg_read_server_files` privilege.
 
-A config.js file in the project root directory is required that contains the database configuration details in the following format:
+A config.js file in the project root directory that contains the database configuration details in the following format, is required.
 
 ```node
 module.exports.postgresConfig = {
@@ -60,7 +60,7 @@ module.exports.postgresConfig = {
 
 ## Data
 
-The data was received in four .csv files, each containing the rows extracted from one table. Combined, the files contained just over 31 million records. I've included a representative [sample](./SampleData/) of each file for reference.
+The data were received in four .csv files, each containing the rows extracted from one table. Combined, the files contained just over 31 million records. I've included a representative [sample](./SampleData/) of each file for reference.
 
 ### Database
 
@@ -82,11 +82,11 @@ Using one of these methods to run the schema.sql file will easily create all of 
 
 ### ETL
 
-I created a .sql file for each .csv. The [files](Postgres/ETL/) each contain two queries. The first, a `COPY FROM` query that will essentially run an `INSERT INTO` for each line of the .csv, and the second, a `setval()` query that will reset the sequence for the primary key after all of the inserting is done. This method for loading data from a .csv is extremely fast and allowed me to make simple changes like changing the names of columns to better reflect the data.
+There is a [.sql file](Postgres/ETL/) corresponding to each .csv file. They each contain two queries. The first, a `COPY FROM` query that will essentially run an `INSERT INTO` for each line of the .csv, and the second, a `setval()` query that will reset the sequence for the primary key after all of the inserting is done. This method for loading data from a .csv is extremely fast and allows you to make simple changes like changing the names of columns to better reflect the data.
 
 ### Optimization
 
-After loading the data into Postgres, some of the queries that requires joining across tables were extremely inefficient. So inefficient that runnig the query froze my computer. I turned to indexing to speed this up. [Indexing](Postgres/ETL/Indexing.sql) all columns that are being searched for that aren't already primary keys. After indexing two columns, the queries were quick enough to run some tests. Using [Artilley.io](https://artillery.io/), I simulated hitting a single endpoint with 20 users a second for 20 seconds with a timeout of 10 seconds and received the following results:
+After loading the data into Postgres, some of the queries that require joining across tables were extremely inefficient to the point that running the query froze my computer. Indexing searched columns is essential in speeding this up. The [indexing.sql](Postgres/ETL/Indexing.sql) file will take care of all the columns that are being searched for that aren't already primary keys. After indexing two columns, the queries were quick enough to run some tests. Using [Artilley.io](https://artillery.io/) to simulate hitting a single endpoint with 20 users a second for 20 seconds with a timeout of 10 seconds, the results were:
 
 ```text
 Duration: 20 Arrival Rate: 20
@@ -102,7 +102,7 @@ p95: 7355
 p99: 7355
 ```
 
-I then indexed the last necessary column for my queries and ran the same test again.
+After indexing the last necessary column for the queries, rerunning the same test again, the results were:
 
 ```text
 Duration: 20 Arrival Rate: 20
@@ -307,17 +307,17 @@ The two instances are connected via networking inside of AWS's [VPC](https://doc
 
 #### Stress Testing
 
-For stress testing I used the [Loader.io](https://loader.io/) cloud based testing suite. My test is configured for a desired number of clients per seconds for a determined duration. I didn't want the DBMS's caching to skew the results, so each client is given a randomly generated product id.
+Stress testing is accomplished using the [Loader.io](https://loader.io/) cloud based testing suite. The test configuration allocates a desired number of clients per second for a determined duration. To avoid the PostgreSQL management system's caching, (that would skew the results) each client is given a randomly generated product id.
 
 ###### Metadata Endpoint  <!-- omit in toc -->
 
-The metadata endpoint is the hardest on the database. It contains two sequential queries, one of which involves a `JOIN`. Even with the limited hardware of the T2.micro, the service is able to sustain over 500 concurrent users per second for one minute with an impressive 16ms average response time.
+The metadata endpoint request is the heaviest draw on the database. It contains two sequential queries, one of which involves a `JOIN`. Even with the limited hardware of the T2.micro, the service is able to sustain over 500 concurrent users per second for one minute with a 16ms average response time.
 
 ![Loader.io 500 users for 60 seconds](Loader/ksnip_20210701-170801.png)
 
 ###### Helpful Endpoint  <!-- omit in toc -->
 
-The helpful endpoint also contains two sequential queries, but each is simply to a single value that is indexed for speed. This query is able to handle over 1000 concurrent users per second for one minute with 26ms average response time.
+The helpful endpoint request also contains two sequential queries, but each is simply to a single value that is indexed for speed. This query is able to handle over 1000 concurrent users per second for one minute with 26ms average response time.
 
 ![Loader.io 1000 users for 60 seconds](Loader/ksnip_20210701-165939.png)
 
@@ -326,22 +326,22 @@ The helpful endpoint also contains two sequential queries, but each is simply to
 
 #### Horizontal Scaling
 
-The process of scaling servers to handle more traffic is quite simple, albeit manual. Create another EC2 T2.micro and set it up just like the first.
+The process of scaling servers to handle more traffic is quite simple, albeit a manual one. Simply create another EC2 T2.micro and set it up just like the first.
 
-Having spun up a second server, I looked into the load balancer offering from AWS. Implementing the load balancer from within the AWS is extremely easy and allows AWS to do the majority of the configuration.
+Having spun up a second server, a load balancer is required. Implementing the load balancer from within the AWS ecosystem is extremely easy and allows AWS to do the majority of the configuration.
 
-However, when running stress tests with Loader on the dual server/load balancer system, there are extreme performance drops.
+However, running the stress tests on the dual server/load balancer system, returned extreme performance drops.
 
 ![Loader.io 500 users for 60 seconds](Loader/ksnip_20210702-115104.png)
 
-I investigated spreading the instances across availability zones, but this didn't result in any discernable differences. The main challenge for future development on this project will be troubleshooting this functionality.
+Spreading the instances across availability zones, didn't result in any discernable differences. The main challenge for future development on this project will be troubleshooting this functionality.
 
 ---
 ---
 
 ### Summary
 
-This project is an exploration into system design with the sole purpose of gaining experience and knowledge. Starting with over 31 million records in .csv files, we loaded the data into a fresh database, transforming it as needed in the process. After getting some benchmarks, we optimized the performance of our database by indexing the necessary columns. We established routes for each of the five endpoints and wrote algorithms to shape the data before responding. We deployed the system using AWS's EC2 service with an instance for the database and another instance for each server. We used Loader cloud based testing suite to stress test our server.
+This project is an exploration into system design with the sole purpose of gaining experience and knowledge. The process began with over 31 million records in .csv files that were loaded into a fresh database. Artillery provided some benchmarks before optimization. Database performance peaked after the indexing of all necessary columns. The API routes for each of the five endpoints received algorithms to shape the data into what the front-end expects. Database queries joined to decrease the number of queries necessarry. The system was deployed using AWS's EC2 service with an instance for the database and another instance for each server. Loader's cloud based testing suite provided stress tests of our server.
 
 ---
 ---
@@ -350,4 +350,4 @@ This project is an exploration into system design with the sole purpose of gaini
 
 ###### Timothy Parrish
 
-I worked for over 15 years in the live event industry, (including theatre, corporate, concert, and marketing sectors). In April of 2021, I decided to enroll in Hack Reactor's Software Engineering Immersive, a high-intensity coding bootcamp. This project is the result of one assignment while attending the immersive. It was implemented in weeks 8 and 9 of the program. With the breadth of experience I have gained throughout this process I am excited to pursue a career as a full-stack web developer.
+I worked for over 15 years in the live event industry, (including the theatre, corporate, concert, and marketing sectors). In April of 2021, I decided to enroll in Hack Reactor's Software Engineering Immersive, a high-intensity coding bootcamp. Project Atelier is the result of one assignment while attending the immersive. It was implemented in weeks 8 and 9 of the program. With the breadth of experience I have gained throughout this process I am excited to pursue a career as a full-stack web developer.
