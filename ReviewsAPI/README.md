@@ -147,7 +147,7 @@ There are five [endpoints](Server/routes/reviews.js) for this service.
 |Parameter|Type|Description|
 |:---:|:---:|:---|
 |page|integer|Selects the page of results to return. *Default 1*|
-|cout|integer|Specifies how many results per page to return. *Default 5*|
+|count|integer|Specifies how many results per page to return. *Default 5*|
 |sort|text|Changes the sort order to be based on "newest","helpful", or "relevant"|
 |product_id|integer|Specifies the product for which to retrieve reviews|
 
