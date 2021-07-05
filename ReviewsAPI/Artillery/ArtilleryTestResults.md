@@ -1,14 +1,16 @@
 ## Pre Optimizations
 
 List of indices:
-char_reviews_pkey FROM TABLE char_reviews
-characteristics_pkey FROM TABLE characteristics
-characteristics_product_id_idx FROM TABLE characteristics TYPE hash
-photos_pkey FROM TABLE photos
-reviews_pkey FROM TABLE reviews
-reviews_product_id_idx FROM TABLE reviews TYPE hash
+- char_reviews_pkey FROM TABLE char_reviews
+- characteristics_pkey FROM TABLE characteristics
+- characteristics_product_id_idx FROM TABLE characteristics TYPE hash
+- photos_pkey FROM TABLE photos
+- reviews_pkey FROM TABLE reviews
+- reviews_product_id_idx FROM TABLE reviews TYPE hash
 
-# Metadata endpoint
+___
+
+### Metadata endpoint
 
 All virtual users finished
 Duration: 20 Arrival Rate: 5
@@ -48,7 +50,9 @@ Codes:
 Errors:
 ETIMEDOUT: 393
 
-# Helpful endpoint
+___
+
+### Helpful endpoint
 
 All virtual users finished
 Duration: 20 Arrival Rate: 20
@@ -68,17 +72,21 @@ Scenario counts:
 Codes:
 201: 400
 
+___
+
 ## More Indexing (\*new)
 
-\*char_reviews_characteristic_id_idx FROM TABLE char_reviews TYPE hash
-char_reviews_pkey FROM TABLE char_reviews
-characteristics_pkey FROM TABLE characteristics
-characteristics_product_id_idx FROM TABLE characteristics TYPE hash
-photos_pkey FROM TABLE photos
-reviews_pkey FROM TABLE reviews
-reviews_product_id_idx FROM TABLE reviews TYPE hash
+- \*char_reviews_characteristic_id_idx FROM TABLE char_reviews TYPE hash
+- char_reviews_pkey FROM TABLE char_reviews
+- characteristics_pkey FROM TABLE characteristics
+- characteristics_product_id_idx FROM TABLE characteristics TYPE hash
+- photos_pkey FROM TABLE photos
+- reviews_pkey FROM TABLE reviews
+- reviews_product_id_idx FROM TABLE reviews TYPE hash
 
-# Metadata endpoint
+___
+
+### Metadata endpoint
 
 All virtual users finished
 Duration: 20 Arrival Rate: 5
@@ -188,7 +196,9 @@ Scenario counts:
 Codes:
 200: 120000
 
-# Helpful endpoint
+___
+
+### Helpful endpoint
 
 All virtual users finished - searching for product_id 612423
 Duration: 60 Arrival Rate: 100
@@ -228,7 +238,9 @@ Codes:
 Errors:
 ETIMEDOUT: 44577
 
-## More Indexing (\*new)
+___
+
+# More Indexing (\*new)
 
 char_reviews_characteristic_id_idx FROM TABLE char_reviews TYPE hash
 char_reviews_pkey FROM TABLE char_reviews
@@ -239,7 +251,9 @@ reviews_pkey FROM TABLE reviews
 reviews_product_id_idx FROM TABLE reviews TYPE hash
 \*reviews_review_id_idx FROM TABLE reviews TYPE hash
 
-# Helpful endpoint
+___
+
+### Helpful endpoint
 
 All virtual users finished - searching for product_id 314023
 Duration: 60 Arrival Rate: 1000

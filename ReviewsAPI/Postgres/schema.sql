@@ -2,7 +2,7 @@ DROP TABLE IF EXISTS reviews, photos, characteristics, char_reviews;
 
 CREATE TABLE reviews (
 	review_id SERIAL PRIMARY KEY,
-	product_id INT,
+	product_id INT NOT NULL,
 	rating SMALLINT,
   helpfulness SMALLINT,
   recommend boolean,
@@ -23,13 +23,13 @@ CREATE TABLE photos (
 
 CREATE TABLE characteristics (
   id SERIAL PRIMARY KEY,
-  product_id INT,
+  product_id INT NOT NULL,
   name VARCHAR ( 16 )
 );
 
 CREATE TABLE char_reviews (
   id SERIAL PRIMARY KEY,
-  characteristic_id INT,
-  review_id INT,
+  characteristic_id INT NOT NULL,
+  review_id INT NOT NULL,
   value SMALLINT
 );
