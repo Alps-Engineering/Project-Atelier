@@ -1,12 +1,14 @@
-# Pre Optimizations
+## Pre Optimizations
 
 List of indices:
-char_reviews_pkey FROM TABLE char_reviews
-characteristics_pkey FROM TABLE characteristics
-characteristics_product_id_idx FROM TABLE characteristics TYPE hash
-photos_pkey FROM TABLE photos
-reviews_pkey FROM TABLE reviews
-reviews_product_id_idx FROM TABLE reviews TYPE hash
+- char_reviews_pkey FROM TABLE char_reviews
+- characteristics_pkey FROM TABLE characteristics
+- characteristics_product_id_idx FROM TABLE characteristics TYPE hash
+- photos_pkey FROM TABLE photos
+- reviews_pkey FROM TABLE reviews
+- reviews_product_id_idx FROM TABLE reviews TYPE hash
+
+___
 
 ### Metadata endpoint
 
@@ -48,6 +50,8 @@ Codes:
 Errors:
 ETIMEDOUT: 393
 
+___
+
 ### Helpful endpoint
 
 All virtual users finished
@@ -68,15 +72,19 @@ Scenario counts:
 Codes:
 201: 400
 
-# More Indexing (\*new)
+___
 
-\*char_reviews_characteristic_id_idx FROM TABLE char_reviews TYPE hash
-char_reviews_pkey FROM TABLE char_reviews
-characteristics_pkey FROM TABLE characteristics
-characteristics_product_id_idx FROM TABLE characteristics TYPE hash
-photos_pkey FROM TABLE photos
-reviews_pkey FROM TABLE reviews
-reviews_product_id_idx FROM TABLE reviews TYPE hash
+## More Indexing (\*new)
+
+- \*char_reviews_characteristic_id_idx FROM TABLE char_reviews TYPE hash
+- char_reviews_pkey FROM TABLE char_reviews
+- characteristics_pkey FROM TABLE characteristics
+- characteristics_product_id_idx FROM TABLE characteristics TYPE hash
+- photos_pkey FROM TABLE photos
+- reviews_pkey FROM TABLE reviews
+- reviews_product_id_idx FROM TABLE reviews TYPE hash
+
+___
 
 ### Metadata endpoint
 
@@ -188,6 +196,8 @@ Scenario counts:
 Codes:
 200: 120000
 
+___
+
 ### Helpful endpoint
 
 All virtual users finished - searching for product_id 612423
@@ -228,6 +238,8 @@ Codes:
 Errors:
 ETIMEDOUT: 44577
 
+___
+
 # More Indexing (\*new)
 
 char_reviews_characteristic_id_idx FROM TABLE char_reviews TYPE hash
@@ -238,6 +250,8 @@ photos_pkey FROM TABLE photos
 reviews_pkey FROM TABLE reviews
 reviews_product_id_idx FROM TABLE reviews TYPE hash
 \*reviews_review_id_idx FROM TABLE reviews TYPE hash
+
+___
 
 ### Helpful endpoint
 
