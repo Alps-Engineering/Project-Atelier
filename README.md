@@ -1,28 +1,31 @@
-# Project-Atelier
-System Design Capstone
-Project Atelier provides the API endpoints and efficent database retrieval to the front-end e-commerce store front for online shoppers.
+# Alps Atelier
 
-## Individual Components
+## Overview
 
-1. **Reviews**: https://github.com/Alps-Engineering/Project-Atelier/tree/main/ReviewsAPI/README.md
+Alps Atelier provides RESTful endpoints and efficent database retrieval to the front-end of an e-commerce web portal.
 
+### Individual Services
 
-2. **Products**:
-https://github.com/Alps-Engineering/Project-Atelier/tree/main/ProductsAPI/README.md
+1. [Reviews README](ReviewsAPI/README.md)
 
-**Built With**
+2. [Products README](ProductsAPI/README.md)
+
+### Built With
+
 - Javascript
 - Node.js
 - Express.js
-
-**Additional Technologies Used**
 - MySQL
 - PostgreSQL
+
+### Additional Technologies Used
+
 - Artillery
 - Loader
 - Docker
 - AWS
 
 ## Developers
-- **Tim Apar**: Reviews API
+
+- **Timothy Parrish**: Reviews API
 - **Austin Miller**: Products API
