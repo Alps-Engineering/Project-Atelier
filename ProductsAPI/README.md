@@ -18,12 +18,12 @@ The Products endpoint for Project Atelier allows the front-end e-commerce store 
 ## API Endpoints
 * Four endpoints: products, products/:product_id, products/:product_id/styles, and products/:product_id/related needed to link front-end requests to a database housing millions of records coming from six csv files.
 * The products endpoint retrieved all products for the store, and so there needed to be optional and default parameters to limit the number of views:
-![products-params](productsAPI/mysql/readmeImages/products_params.png)
+![products-params](./mysql/readmeImages/products_params.png)
 The final result would appear in this format:
-![products](productsAPI/mysql/readmeImages/products.png)
+![products](./mysql/readmeImages/products.png)
 * This API endpoint was fairly straightforward and would not need a lot of transformation after the initial query.
 * The styles API endpoint was the most complex, relying on three separate database tables and multiple transformation algorithms to produce the desired format:
-![styles](productsAPI/mysql/readmeImages/styles.png)
+![styles](./mysql/readmeImages/styles.png)
 
 ## Database and Schema Design
 * I originally considered MongoDB as a non-relational database, as well as MySQL and PostgreSQL as a relational database.
@@ -42,27 +42,27 @@ The final result would appear in this format:
 
 ## Initial Stress Testing
 * Upon initial stress testing on my local machine using Artillery.io, I tested 100 requests per second for a total of 2.5 minutes. This proved to work exceptionally well for three of my four endpoints. See below, the products endpoint with just 2 ms latency for the 99th percentile of requests:
-![products-artillery](productsAPI/mysql/artilleryTests/reportImages/products_test1.png)
+![products-artillery](./mysql/artilleryTests/reportImages/products_test1.png)
 * However, due to the complicated nature of the styles endpoint, under the same conditions, the latency was just over 2000 ms for the 99th percentile of requests:
-![styles-before-indexing](productsAPI/mysql/artilleryTests/reportImages/products_id_styles_test1.png)
+![styles-before-indexing](./mysql/artilleryTests/reportImages/products_id_styles_test1.png)
 * In order to solve this issue, I used indexing on the three tables referenced with the styles endpoint.
   * Indexing causes the database to create a data structure similar to a Binary Tree. This is naturally conducive to sorting, and allows the query to look for the specific row in the index. The index then refers to a pointer which will find the rest of the requested information.
   * After indexing, my styles endpoing dropped to a 10 ms latency for the 99th percentile of requests - a 99.5% improvement.
-![styles-after-indexing](productsAPI/mysql/artilleryTests/reportImages/products_id_styles_test2_afterIndexing.png)
+![styles-after-indexing](./mysql/artilleryTests/reportImages/products_id_styles_test2_afterIndexing.png)
 
 ## Docker and Deployment
 * I used AWS EC2 T2 micros to deploy my server and database separately. I used Docker within my EC2 to house my database and data.
 * My goal was to get at least 100 requests per second with an average latency of less than 2000 ms.
 * I initially tested my deployed server and database using Loader.io. I received generally good results for my endpoints:
   * With 1000 requests per second for 60 seconds, my products endpoint had an average latency of 52 ms.
-  ![products-1server](productsAPI/mysql/loaderio/server1/products_1000.png)
+  ![products-1server](./mysql/loaderio/server1/products_1000.png)
   * However, my styles endpoint breached my 2000 ms goal somewhere around 250 requests per second for 60 seconds.
-  ![styles-1server](productsAPI/mysql/loaderio/server1/styles_250.png)
+  ![styles-1server](./mysql/loaderio/server1/styles_250.png)
 * I added more servers incrementally under an AWS load balancer, using a Round-Robin assignment approach.
 * I generally saw improvements with all of my endpoints from this. The most significant was with my products endpoint. Going from 1000 requests per second under one server to 3000 requests per second under three servers, I had an average latency of just 16 ms. While not completely apples to apples, this is just under a 70% improvement.
-![products-3servers](productsAPI/mysql/loaderio/servers3/products_3000.png)
+![products-3servers](./mysql/loaderio/servers3/products_3000.png)
 * My styles endpoint did improve, though very modestly, breaching a 2000 ms average latency at around 750 requests per second under three servers, versus 250 under one.
-![styles-3servers](productsAPI/mysql/loaderio/servers3/styles_750.png)
+![styles-3servers](./mysql/loaderio/servers3/styles_750.png)
 
 ## Further Improvements
 * If I were to improve upon this project, I would start by looking into an async-await approach within my API endpoints, at least with my styles endpoint. This has potential to be a more efficient server endpoint than using Promises.
