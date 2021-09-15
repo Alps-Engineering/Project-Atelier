@@ -39,7 +39,7 @@ router.put('/:review_id/helpful', (req, res) => {
       res.sendStatus(500);
     }
     if (result) {
-      res.sendStatus(201);
+      res.sendStatus(204);
     }
   });
 });
@@ -50,7 +50,7 @@ router.put('/:review_id/report', (req, res) => {
       res.sendStatus(500);
     }
     if (result) {
-      res.sendStatus(201);
+      res.sendStatus(204);
     }
   });
 });
