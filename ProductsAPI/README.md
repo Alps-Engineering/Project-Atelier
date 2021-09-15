@@ -44,7 +44,7 @@ The final result would appear in this format:
 * Upon initial stress testing on my local machine using Artillery.io, I tested 100 requests per second for a total of 2.5 minutes. This proved to work exceptionally well for three of my four endpoints. See below, the products endpoint with just 2 ms latency for the 99th percentile of requests:
 ![products-artillery](../images/reportImages/products_test1.png)
 * However, due to the complicated nature of the styles endpoint, under the same conditions, the latency was just over 2000 ms for the 99th percentile of requests:
-![styles-before-indexing](../images/reportImages/products_id_related_test1.png
+![styles-before-indexing](../images/reportImages/products_id_styles_test1.png)
 * In order to solve this issue, I used indexing on the three tables referenced with the styles endpoint.
   * Indexing causes the database to create a data structure similar to a Binary Tree. This is naturally conducive to sorting, and allows the query to look for the specific row in the index. The index then refers to a pointer which will find the rest of the requested information.
   * After indexing, my styles endpoing dropped to a 10 ms latency for the 99th percentile of requests - a 99.5% improvement.
